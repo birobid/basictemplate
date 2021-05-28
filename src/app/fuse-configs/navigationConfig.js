@@ -9,22 +9,51 @@ i18next.addResourceBundle('ar', 'navigation', ar);
 
 const navigationConfig = [
 	{
-		id: 'applications',
-		title: 'Applications',
-		translate: 'APPLICATIONS',
+		id: 'soporte-tickets',
+		title: 'soporte',
+		translate: 'Soporte',
 		type: 'group',
 		icon: 'apps',
 		children: [
 			{
-				id: 'example-component',
-				title: 'Example',
-				translate: 'EXAMPLE',
+				id: 'ticket-component',
+				title: 'Tickes',
+				translate: 'Tickes',
 				type: 'item',
-				icon: 'whatshot',
+				icon: 'style',
 				url: '/example'
-			}
+			}			
 		]
-	}
+	},
+	{
+		id: 'mantenimientos',
+		title: 'mantenimientos',
+		translate: 'MANTENIMIENTOS',
+		type: 'group',
+		icon: 'apps',
+		children: [
+			{
+				id       : 'empresa',
+				title    : 'Empresa',
+				type     : 'collapse',
+				icon    : 'dashboard',
+				children : [
+					{
+						id   : 'addempresa',
+						title: 'Añadir Empresa',
+						type : 'item',
+						url  : '/addempresa'
+					},
+					{
+						id   : 'modempresa',
+						title: 'Modificar Empresa',
+						type : 'item',
+						url  : '/editempresa'
+					}
+				]
+			}					
+		]
+	},	
 ];
 
 export default navigationConfig;
