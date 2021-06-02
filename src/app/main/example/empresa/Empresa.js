@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
-import EmpresaEdit from './EmpresaEdit'
 
 const useStyles = makeStyles({
 	layoutRoot: {

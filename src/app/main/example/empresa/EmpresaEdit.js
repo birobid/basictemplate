@@ -1,6 +1,6 @@
 import { DataGrid } from '@material-ui/data-grid';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 
 const columns = [
     {field: 'idempresa', headerName: 'ID', width : 50},
@@ -11,7 +11,7 @@ const columns = [
     {field: 'password', headerName: 'Password', width : 130},
     {field: 'ruc', headerName: 'RUC', width : 150},
     {field: 'activo', headerName: 'Estado', width : 100},
-  ];
+];
 
 export default function DataTable() {
     
@@ -22,11 +22,9 @@ export default function DataTable() {
     React.useEffect(()=>{
         axios.get('http://192.168.0.13:3302/api/listarempresa')
         .then(res=>{
-            console.log(res.data.data);
             setItems(res.data.data);
         });
     },[]);
-    
     return (    
       <div style={{ paddingTop:'1rem',paddingLeft:'1rem',height: '70vh', width: '99%' }}>
         <div style={{paddingTop:'1rem',paddingBottom:'2rem'}}><h2>Listado de Empresas</h2></div>

@@ -10,17 +10,42 @@ i18next.addResourceBundle('ar', 'navigation', ar);
 const navigationConfig = [
 	{
 		id: 'soporte-tickets',
-		title: 'soporte',
-		translate: 'Soporte',
+		title: 'Soportes',
+		translate: 'Soportes',
 		type: 'group',
 		icon: 'apps',
 		children: [
 			{
-				id: 'ticket-component',
-				title: 'Tickes',
-				translate: 'Tickes',
+				id: 'ticket',
+				title: 'Ticket',
+				translate: 'Ticket',
 				type: 'item',
 				icon: 'style',
+				url: '/example'
+			}			
+		]
+	},
+	{
+		id: 'req',
+		title: 'Requerimiento',
+		translate: 'Requerimiento',
+		type: 'group',
+		icon: 'apps',
+		children: [
+			{
+				id: 'addreq',
+				title: 'add',
+				translate: 'Crear',
+				type: 'item',
+				icon: 'dashboard',
+				url: '/addrequerimiento'
+			},
+			{
+				id: 'asign',
+				title: 'asignar',
+				translate: 'Asignar',
+				type: 'item',
+				icon: 'dashboard',
 				url: '/example'
 			}			
 		]
@@ -36,7 +61,7 @@ const navigationConfig = [
 				id       : 'empresa',
 				title    : 'Empresa',
 				type     : 'collapse',
-				icon    : 'dashboard',
+				icon    : 'airplay',
 				children : [
 					{
 						id   : 'addempresa',
