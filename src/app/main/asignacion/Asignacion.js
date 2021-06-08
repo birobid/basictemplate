@@ -57,10 +57,10 @@ function Asignacion() {
     const [listTicket,setListTicket] = useState([
         { 
             idticket: 0, 
-            nombre_empresa: "....", 
+            nombre_empresa: "Cargando..", 
             tipo: 1, 
             nombre_contacto: 1, 
-            descripcion: "...", 
+            descripcion: "Cargando", 
             estado: 1, 
             creado: "01-01-2021", 
         }
