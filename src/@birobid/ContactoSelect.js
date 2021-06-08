@@ -12,61 +12,23 @@ const useStyles = makeStyles((theme) => ({
     },
     selectEmpty: {
         marginTop: theme.spacing(3),
-      },
-  }));
+    },
+}));
 
-export default function ContactoSelect(){
+export default function ContactoSelect(props){
+    const { value, onChange } = props;
     const classes = useStyles();
     const [loading, setLoading] = React.useState(true);
     const [items,setItems] = React.useState([
-        { label: "Cargando...", value: "" }
+        { label: "Cargando...", value: "Cargando" }
     ]);
     
-    const [value, setValue] = React.useState("1");
-
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
-
-    const contac = [
-        {
-            idcontacto:1,
-            nombre_contacto:'Manuel Rangel',
-            email_contacto:'salvatorex89@gmail.com',
-            tlf_contacto: '0962749784',
-            cargo:'Desarrollador',
-            empresa:1
-        },
-        {
-            idcontacto:2,
-            nombre_contacto:'Maria Andrade',
-            email_contacto:'marandrade@gmail.com',
-            tlf_contacto: '0962749784',
-            cargo:'Empleada',
-            empresa:3
-        },
-        {
-            idcontacto:3,
-            nombre_contacto:'Camilo Terán',
-            email_contacto:'cteran@gmail.com',
-            tlf_contacto: '0962749784',
-            cargo:'Vendedor',
-            empresa:3
-        }
-    ]
+    const dataSelect = props.dataSelect 
+    console.log({"Data de Props" : dataSelect})   
 
     React.useEffect(()=>{
-        async function getContacto(){
-            const serverapi = process.env.REACT_APP_SERVERAPI;
-            //console.log(serverapi);
-            //const response = await fetch(serverapi +'/tipoticket');
-            //const body = await response.json();            
-            setItems(contac.map(({ nombre_contacto,idcontacto }) => ({ label: nombre_contacto, value: idcontacto })));
-            //setItems(body.data.map(({ tipo,idtipo_ticket }) => ({ label: tipo, value: idtipo_ticket })));
-            setLoading(false);
-        }
-        getContacto();
-        
+        setItems(dataSelect.map(({ nombre_contacto,idcontacto }) => ({ label: nombre_contacto, value: idcontacto })));
+        setLoading(false);         
     },[]);
 
     return (
@@ -77,7 +39,7 @@ export default function ContactoSelect(){
                 id="contacto"
                 value={value}
                 disabled={loading}
-                onChange={handleChange}
+                onChange={onChange}
                 inputProps={{
                     name: 'contacto',
                     id: 'idcontacto',
@@ -85,7 +47,7 @@ export default function ContactoSelect(){
             >
             {
                 items.map(({ label, value }) => (
-                    <MenuItem key={value+label} value={value}>{label}</MenuItem>
+                    <MenuItem key={value+value} value={value}>{label}</MenuItem>
                 ))
             }
             </Select>

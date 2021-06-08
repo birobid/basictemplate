@@ -46,7 +46,7 @@ const navigationConfig = [
 				translate: 'Asignar',
 				type: 'item',
 				icon: 'dashboard',
-				url: '/example'
+				url: '/asignarrequerimiento'
 			}			
 		]
 	},

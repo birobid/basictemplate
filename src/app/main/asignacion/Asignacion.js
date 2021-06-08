@@ -13,10 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import SaveIcon from '@material-ui/icons/Save';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import { useSelector, useDispatch } from 'react-redux';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import FuseMessage  from '@fuse/core/FuseMessage';
 
 const serverapi = process.env.REACT_APP_SERVERAPI;
 
@@ -27,7 +28,8 @@ const useStyles = makeStyles({
         marginLeft:10,
         marginRight:10,
         marginTop:10,
-        marginBottom:10     
+        marginBottom:10,
+        elevation: 2
         
     },
       media: {
@@ -38,7 +40,7 @@ const useStyles = makeStyles({
         maxHeight:80
     },
     avatar: {
-        backgroundColor: '#0b2b85',
+        backgroundColor: '#921111',
     }, 
     saveButon:{
         paddingLeft:10,
@@ -46,7 +48,9 @@ const useStyles = makeStyles({
     }  
 });
 
-function Example() {
+
+
+function Asignacion() {
 
     const dispatch = useDispatch()
 	const classes = useStyles();
@@ -92,12 +96,12 @@ function Example() {
 			}}
 			header={
 				<div className="p-24">
-					<h4>Tickest en Proceso</h4>
+					<h4>Asignación de Tickets</h4>
 				</div>
 			}
 			contentToolbar={
 				<div className="px-24">
-					<h4>Tickest</h4>
+					<h4>Tickest Disponibles</h4>
 				</div>
 			}
 			content={
@@ -119,7 +123,7 @@ function Example() {
                         <CardActionArea>
                             <CardMedia
                             className={classes.media}
-                            image="/assets/images/etc/ticket.jpg"
+                            image="/assets/images/etc/blue-back.png"
                             title={e.nombre_contacto}
                             />
                             <CardContent >
@@ -143,10 +147,10 @@ function Example() {
                         </CardActionArea>
                         <CardActions>
                             <Button size="small" color="primary" variant="contained">
-                                Destalles
+                                Asignar
                             </Button>
                             <IconButton color="primary" aria-label="Guardar" className={classes.saveButon}>
-                                <CloseIcon />
+                                <SaveIcon />
                             </IconButton>
                         </CardActions>
                         </Card>      
@@ -160,4 +164,4 @@ function Example() {
 		/>
 	);
 }
-export default Example;
+export default Asignacion;
