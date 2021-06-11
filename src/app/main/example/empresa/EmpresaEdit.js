@@ -13,14 +13,17 @@ const columns = [
     {field: 'activo', headerName: 'Estado', width : 100},
 ];
 
+
+const serverapi = process.env.REACT_APP_SERVERAPI;
+
 export default function DataTable() {
     
-    const [rows,setItems] = React.useState([
+    const [rowss,setItems] = React.useState([
         { id: 0 ,idempresa :0,nombre_empresa: "0", representante: "0",tlf_contacto:'...',email:'0',password:'0',ruc:'0',activo:'0' }
     ]);
 
     React.useEffect(()=>{
-        axios.get('http://192.168.0.13:3302/api/listarempresa')
+        axios.get(`${serverapi}/listarempresa`)
         .then(res=>{
             setItems(res.data.data);
         });
@@ -28,7 +31,9 @@ export default function DataTable() {
     return (    
       <div style={{ paddingTop:'1rem',paddingLeft:'1rem',height: '70vh', width: '99%' }}>
         <div style={{paddingTop:'1rem',paddingBottom:'2rem'}}><h2>Listado de Empresas</h2></div>
-        <DataGrid rows={rows} columns={columns} pageSize={6} getRowId={(rows) => rows.idempresa} />
+        <DataGrid rows={rowss} columns={columns} pageSize={6} getRowId={(rows) => rows.idempresa} />
       </div>
     );
 }  
+
+/* eslint-disable camelcase */
