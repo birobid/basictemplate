@@ -10,12 +10,7 @@ import axios from 'axios';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { datePickerDefaultProps } from '@material-ui/pickers/constants/prop-types';
-import Snackbar from '@material-ui/core/Snackbar';
-import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import NumberFormat from 'react-number-format';
+
 
 const serverapi = process.env.REACT_APP_SERVERAPI;
 const useStyles = makeStyles({
@@ -77,40 +72,34 @@ function Requerimiento() {
     ]);
     
     useEffect(()=>{         
-        let ide = [] 
+        
         async function getEmpresa() {
-            axios.get(serverapi+"/listarempresa")
+            axios.get(`${serverapi}/listarempresa`)
                 .then(res => {                
-                    let dataC = res.data                   
-                    setEmpresa(dataC.data.map(({ nombre_empresa,idempresa }) => ({ label: nombre_empresa, value: idempresa })));
+                    const dataC = res.data                   
+                    setEmpresa(dataC.data.map(({ nombre_empresa:nombreEmpresa,idempresa }) => ({ label: nombreEmpresa, value: idempresa })));
                     setLoading(false);
-                    ide = Array.from(dataC.data) 
+                     
                 }) 
                 .then(res =>{
-                    setData({
-                        ...data,
-                        ["idempresa"]: ide[0].idempresa
-                    }) 
+                    
                 })
         }       
         getEmpresa();        
     },[]);
 
     useEffect(()=>{  
-        let setr = []             
+                   
         async function getTipoTicket() {
-            axios.get(serverapi+"/tipoticket")
+            axios.get(`${serverapi}/tipoticket`)
                 .then(res => {                
-                    let dataC = res.data
-                    setTipoTicket(dataC.data.map(({ tipo,idtipo_ticket }) => ({ label: tipo, value: idtipo_ticket })));
+                    const dataC = res.data
+                    setTipoTicket(dataC.data.map(({ tipo,idtipo_ticket:tipoTicket }) => ({ label: tipo, value: tipoTicket })));
                     setLoading(false);
-                    setr = Array.from(dataC.data)    
+                        
                 })
                 .then(res =>{
-                    setData({
-                        ...data,
-                        ["tipo"]: setr[0].idtipo_ticket
-                    })   
+                      
                 })
         }       
         getTipoTicket();  
@@ -118,20 +107,17 @@ function Requerimiento() {
     },[]);
 
     useEffect(()=>{ 
-        let setr = []      
+            
         async function getContactos() {
-            axios.get(serverapi+"/listarcontacto")
+            axios.get(`${serverapi}/listarcontacto`)
                 .then(res => {                
                     const dataC = res.data
-                    setContactos(dataC.data.map(({ nombre_contacto,idcontacto }) => ({ label: nombre_contacto, value: idcontacto })));
+                    setContactos(dataC.data.map(({ nombre_contacto:nombreContacto,idcontacto }) => ({ label: nombreContacto, value: idcontacto })));
                     setLoading(false);
-                    setr = Array.from(dataC.data)
+                    
                 }) 
                 .then(res =>{
-                    setData({
-                        ...data,
-                        ["contacto"]: setr[0].idcontacto
-                    })
+                    
                 })
         }       
         getContactos();
@@ -141,11 +127,12 @@ function Requerimiento() {
     const handleDateChange = (date) => {
         setSelectedDate(date);
         setData({
-            ...data,
-            ["creado"]: date                      
+            ...data
+                                
         })
         console.log(date)
     };
+    
     
     const onSubmit = function(e){        
         e.preventDefault()
@@ -153,16 +140,16 @@ function Requerimiento() {
 
         try{            
             axios({
-                url : serverapi + '/grabarticket',
+                url : `${serverapi}/grabarticket`,
                 method : 'POST',
                 data : dataForm                
             })
             .then((response) => {
-                let dataResponse = response.data
-                let numT = dataResponse.data[0].nticket
+                const dataResponse = response.data
+                const numT = dataResponse.data[0].nticket
                 if(numT != null){
                    
-                    let message1 = 'Requerimiento número ' + numT + ' almacenado.'
+                    const message1 = `Requerimiento número ${ numT } almacenado.`
                     alert(message1)
                     
                 }
@@ -176,8 +163,6 @@ function Requerimiento() {
         }
     }  
 
-
-   
 	return (
 		<FusePageSimple
 			classes={{
@@ -304,3 +289,5 @@ function Requerimiento() {
 	);
 }
 export default Requerimiento;
+
+/* eslint-disable camelcase */

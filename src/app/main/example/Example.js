@@ -15,7 +15,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import { useSelector, useDispatch } from 'react-redux';
+
 
 
 const serverapi = process.env.REACT_APP_SERVERAPI;
@@ -48,14 +48,14 @@ const useStyles = makeStyles({
 
 function Example() {
 
-    const dispatch = useDispatch()
+   
 	const classes = useStyles();
     const [listTicket,setListTicket] = useState([
         { 
             idticket: 0, 
-            nombre_empresa: "....", 
+            nombreEmpresa: "....", 
             tipo: 1, 
-            nombre_contacto: 1, 
+            nombreContacto: 1, 
             descripcion: "...", 
             estado: 1, 
             creado: "01-01-2021", 
@@ -64,15 +64,16 @@ function Example() {
     
     useEffect(()=>{  
         async function getTickets() {
-            axios.get(serverapi+"/listarticketpendientes")
+            const urlFinal = `${serverapi}/listarticketpendientes`;
+            axios.get(urlFinal)
             .then(res => {                
                 const dataC = res.data 
                 console.log(res.data)                 
-                setListTicket(dataC.data.map(({idticket,nombre_empresa,tipo,nombre_contacto,descripcion,estado,creado}) => ({ 
+                setListTicket(dataC.data.map(({idticket,nombre_empresa:nombreEmpresa,tipo,nombre_contacto:nombreContacto,descripcion,estado,creado}) => ({ 
                         idticket : idticket,
-                        nombre_empresa : nombre_empresa,
+                        nombreEmpresa : nombreEmpresa,
                         tipo : tipo,
-                        nombre_contacto : nombre_contacto,
+                        nombreContacto : nombreContacto,
                         descripcion : descripcion,
                         estado : estado,
                         creado : creado
@@ -113,18 +114,18 @@ function Example() {
                             </Avatar>
                             }
                     
-                            title={e.nombre_empresa}
+                            title={e.nombreEmpresa}
                             subheader= {e.creado}
                         />
                         <CardActionArea>
                             <CardMedia
                             className={classes.media}
                             image="/assets/images/etc/ticket.jpg"
-                            title={e.nombre_contacto}
+                            title={e.nombreContacto}
                             />
                             <CardContent >
                                 <Typography gutterBottom variant="h6" component="h2">
-                                    {e.nombre_contacto}
+                                    {e.nombreContacto}
                                 </Typography>
                                     {e.tipo}                                  
                                 <FuseAnimate 
@@ -161,3 +162,4 @@ function Example() {
 	);
 }
 export default Example;
+/* eslint-disable camelcase */
