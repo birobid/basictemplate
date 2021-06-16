@@ -61,22 +61,25 @@ function Example() {
             creado: "01-01-2021", 
         }
     ]);
-    
+
     useEffect(()=>{  
         async function getTickets() {
             const urlFinal = `${serverapi}/listarticketpendientes`;
             axios.get(urlFinal)
             .then(res => {                
                 const dataC = res.data 
-                console.log(res.data)                 
-                setListTicket(dataC.data.map(({idticket,nombre_empresa:nombreEmpresa,tipo,nombre_contacto:nombreContacto,descripcion,estado,creado}) => ({ 
+                const newListTicket = dataC.data.filter((item) =>{
+                    return item.operador !== 0;            
+                })                 
+                setListTicket(newListTicket.map(({idticket,nombre_empresa:nombreEmpresa,tipo,nombre_contacto:nombreContacto,descripcion,estado,creado,operador}) => ({ 
                         idticket : idticket,
                         nombreEmpresa : nombreEmpresa,
                         tipo : tipo,
                         nombreContacto : nombreContacto,
                         descripcion : descripcion,
                         estado : estado,
-                        creado : creado
+                        creado : creado,
+                        operador : operador
                     })                    
                 ));
             }) 

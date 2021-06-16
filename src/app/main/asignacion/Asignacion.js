@@ -25,6 +25,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import { blue } from '@material-ui/core/colors';
 
 const serverapi = process.env.REACT_APP_SERVERAPI;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const useStyles = makeStyles({
 	root: {
         maxWidth: 300,

@@ -8,7 +8,7 @@ const columns = [
     {field: 'representante', headerName: 'Representante', width : 130},
     {field: 'tlf_contacto', headerName: 'Tlf.Contacto', width : 130},
     {field: 'email', headerName: 'Email', width : 130},
-    {field: 'password', headerName: 'Password', width : 130},
+    
     {field: 'ruc', headerName: 'RUC', width : 150},
     {field: 'activo', headerName: 'Estado', width : 100},
 ];
@@ -19,7 +19,7 @@ const serverapi = process.env.REACT_APP_SERVERAPI;
 export default function DataTable() {
     
     const [rowss,setItems] = React.useState([
-        { id: 0 ,idempresa :0,nombre_empresa: "0", representante: "0",tlf_contacto:'...',email:'0',password:'0',ruc:'0',activo:'0' }
+        { id: 0 ,idempresa :0,nombre_empresa: "0", representante: "0",tlf_contacto:'...',email:'0',ruc:'0',activo:'0' }
     ]);
 
     React.useEffect(()=>{
