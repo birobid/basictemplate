@@ -39,9 +39,13 @@ const formElement2 = {
 
 
 function Requerimiento() {
-
+    let contac = 0
+    let empre = 0
+    let tipor = 0
 	const classes = useStyles();
-    const [loading, setLoading] = useState(true);   
+    const [loading1, setLoading1] = useState(true); 
+    const [loading2, setLoading2] = useState(true); 
+    const [loading3, setLoading3] = useState(true);   
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [data,setData] = useState({        
         idempresa : 0,
@@ -58,7 +62,20 @@ function Requerimiento() {
         })
         //console.log(data)
     } 
-    
+
+    function setearBasicos(){
+        setData({
+            ...data,
+            idempresa: empre,
+            tipo : tipor,
+            contacto:contac
+        })
+    }
+
+    const [empresaList,setEmpresa] = useState([
+        { label: "Cargando...", value: "Cargando" }
+    ]);
+
     const [contactosList,setContactos] = useState([
         { label: "Cargando...", value: "Cargando" }
     ]);
@@ -67,58 +84,50 @@ function Requerimiento() {
         { label: "Cargando...", value: "Cargando" }
     ]);
     
-    const [empresaList,setEmpresa] = useState([
-        { label: "Cargando...", value: "Cargando" }
-    ]);
+   
     
-    useEffect(()=>{         
-        
+    useEffect(()=>{        
         async function getEmpresa() {
             axios.get(`${serverapi}/listarempresa`)
-                .then(res => {                
-                    const dataC = res.data                   
-                    setEmpresa(dataC.data.map(({ nombre_empresa:nombreEmpresa,idempresa }) => ({ label: nombreEmpresa, value: idempresa })));
-                    setLoading(false);
-                     
-                }) 
-                .then(res =>{
-                    
-                })
+            .then(res => {                
+                const dataC = res.data  
+                empre = res.data.data[0].idempresa              
+                setEmpresa(dataC.data.map(({ nombre_empresa:nombreEmpresa,idempresa }) => ({ label: nombreEmpresa, value: idempresa })));
+                setLoading1(false); 
+                setearBasicos()                    
+            })                 
         }       
         getEmpresa();        
     },[]);
 
-    useEffect(()=>{  
-                   
+    useEffect(()=>{
+                          
         async function getTipoTicket() {
             axios.get(`${serverapi}/tipoticket`)
-                .then(res => {                
-                    const dataC = res.data
-                    setTipoTicket(dataC.data.map(({ tipo,idtipo_ticket:tipoTicket }) => ({ label: tipo, value: tipoTicket })));
-                    setLoading(false);
-                        
-                })
-                .then(res =>{
-                      
-                })
+            .then(res => {                
+                const dataC = res.data
+                tipor = res.data.data[0].idtipo_ticket
+                setTipoTicket(dataC.data.map(({ tipo,idtipo_ticket:tipoTicket }) => ({ label: tipo, value: tipoTicket })));
+                setLoading2(false); 
+                setearBasicos()
+                                        
+            })
+               
         }       
         getTipoTicket();  
            
     },[]);
 
-    useEffect(()=>{ 
-            
+    useEffect(()=>{             
         async function getContactos() {
             axios.get(`${serverapi}/listarcontacto`)
-                .then(res => {                
-                    const dataC = res.data
-                    setContactos(dataC.data.map(({ nombre_contacto:nombreContacto,idcontacto }) => ({ label: nombreContacto, value: idcontacto })));
-                    setLoading(false);
-                    
-                }) 
-                .then(res =>{
-                    
-                })
+            .then(res => {                
+                const dataC = res.data
+                contac = res.data.data[0].idcontacto
+                setContactos(dataC.data.map(({ nombre_contacto:nombreContacto,idcontacto }) => ({ label: nombreContacto, value: idcontacto })));
+                setLoading3(false);
+                setearBasicos()
+            })
         }       
         getContactos();
     },[]);
@@ -163,6 +172,7 @@ function Requerimiento() {
         }
     }  
 
+    
 	return (
 		<FusePageSimple
 			classes={{
@@ -190,7 +200,7 @@ function Requerimiento() {
                                         labelId="empresainput"
                                         id="idempresa"
                                         value={data.idempresa}
-                                        disabled={loading}
+                                        disabled={loading1}
                                         onChange={(e) => handle(e)}
                                         inputProps={{
                                             name: 'idempresa',
@@ -199,7 +209,7 @@ function Requerimiento() {
                                     >
                                     {
                                         empresaList.map(({ label, value }) => (
-                                            <MenuItem key={value+value} value={value}>{label}</MenuItem>
+                                            <MenuItem key={value} value={value}>{label.toUpperCase()}</MenuItem>
                                         ))
                                     }
                                     </Select>
@@ -211,7 +221,7 @@ function Requerimiento() {
                                         labelId="tiporequerimiento"
                                         id="tipo"
                                         value={data.tipo}
-                                        disabled={loading}
+                                        disabled={loading2}
                                         onChange={(e) => handle(e)}
                                         inputProps={{
                                             name: 'tipo',
@@ -220,7 +230,7 @@ function Requerimiento() {
                                     >
                                     {
                                         tipoTickerList.map(({ label, value }) => (
-                                            <MenuItem key={value+value} value={value}>{label}</MenuItem>
+                                            <MenuItem key={value+value} value={value}>{label.toUpperCase()}</MenuItem>
                                         ))
                                     }
                                     </Select>
@@ -232,7 +242,7 @@ function Requerimiento() {
                                         labelId="contactoInput"
                                         id="contacto"
                                         value={data.contacto}
-                                        disabled={loading}
+                                        disabled={loading3}
                                         onChange={(e) => handle(e)}
                                         inputProps={{
                                             name: 'contacto',
@@ -241,7 +251,7 @@ function Requerimiento() {
                                     >
                                     {
                                         contactosList.map(({ label, value }) => (
-                                            <MenuItem key={value+value} value={value}>{label}</MenuItem>
+                                            <MenuItem key={value+value} value={value}>{label.toUpperCase()}</MenuItem>
                                         ))
                                     }
                                     </Select>
