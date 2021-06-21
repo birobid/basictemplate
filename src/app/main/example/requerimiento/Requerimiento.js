@@ -10,7 +10,8 @@ import axios from 'axios';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import { useDispatch } from 'react-redux';
+import { showMessage } from 'app/store/fuse/messageSlice';
 
 const serverapi = process.env.REACT_APP_SERVERAPI;
 const useStyles = makeStyles({
@@ -39,9 +40,12 @@ const formElement2 = {
 
 
 function Requerimiento() {
+    
     let contac = 0
     let empre = 0
     let tipor = 0
+
+    const dispatch = useDispatch();
 	const classes = useStyles();
     const [loading1, setLoading1] = useState(true); 
     const [loading2, setLoading2] = useState(true); 
@@ -157,13 +161,29 @@ function Requerimiento() {
                 const dataResponse = response.data
                 const numT = dataResponse.data[0].nticket
                 if(numT != null){
-                   
-                    const message1 = `Requerimiento número ${ numT } almacenado.`
-                    alert(message1)
-                    
+                   dispatch(showMessage({
+                        message:`Requerimiento número ${ numT } almacenado.`,
+                        variant:'success',
+                        autoHideDuration:2000,
+                        anchorOrigin: {
+                            vertical  : 'bottom',//top bottom
+                            horizontal: 'center'//left center right
+                        },
+
+                    }));
                 }
                 
             }, (error) => {
+                dispatch(showMessage({
+                    message:`Inconvenientes al almacenar requerimiento`,
+                    variant:'error',
+                    autoHideDuration:5000,
+                    anchorOrigin: {
+                        vertical  : 'top',//top bottom
+                        horizontal: 'center'//left center right
+                    },
+
+                }));
                 console.log(error);
             });
             

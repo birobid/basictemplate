@@ -7,6 +7,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import { showMessage } from 'app/store/fuse/messageSlice';
+import { useDispatch } from 'react-redux';
+
 
 const serverapi = process.env.REACT_APP_SERVERAPI;
 
@@ -25,6 +28,7 @@ const formElement = {
 };
 
 function EmpresaForm() {
+    const dispatch = useDispatch();
 	const classes = useStyles();
     const [data,setData] = useState(
         {
@@ -41,9 +45,16 @@ function EmpresaForm() {
         setData({
             ...data,
             [e.target.name]: e.target.value          
-        })
-        console.log(data)
+        })        
     } 
+
+    const handleNumber = (e,maxlng) => {
+        const value = e.target.value.replace(/\D/g, "");
+        setData({
+            ...data,
+            [e.target.name]: value.substring(0,maxlng)          
+        })
+    };
 
     function handleSave(){
         const dataForm = data
@@ -64,15 +75,26 @@ function EmpresaForm() {
                         representante : "",
                         email : "",
                         contacto : ""
-                    })
-                   alert("Empresa Registrada con exito.")
+                    })                   
+                   dispatch(showMessage({ 
+                        message: 'Empresa Registrada con exito.',
+                        variant:'success',
+                        autoHideDuration:2000,
+                        anchorOrigin: {
+                            vertical  : 'bottom',//top bottom
+                            horizontal: 'center'//left center right
+                        },
+                    }));
                 }                       
             }, (error) => {
-                console.log(error);
+                dispatch(showMessage({ 
+                    message: 'Inconveniente al Registrar empresa. Causa: ' + error.message,
+                    variant:'error' 
+                }));
             });
             
         }catch(err){
-            console.log(err)
+            
         }
     }
     
@@ -98,9 +120,12 @@ function EmpresaForm() {
                             <FormControl style={formElement}>
                                 <InputLabel htmlFor="nombre_empresa">Nombre de Empresa</InputLabel>
                                 <Input 
+                                    // onClick={setOpenNoti(true)}
                                     id="nombre_empresa" 
                                     name="nombre"
+                                    type="text"
                                     aria-describedby="my-helper-text1" 
+                                    inputProps = {{maxLength:80}}
                                     value={data.nombre} 
                                     onChange={(e) => handle(e)}
                                 />
@@ -111,6 +136,8 @@ function EmpresaForm() {
                                 <Input 
                                     id="contrasenaE" 
                                     name="password"
+                                    type="password"
+                                    inputProps = {{maxLength:80}}
                                     aria-describedby="Seguridad" 
                                     value={data.password} 
                                     onChange={(e) => handle(e)}
@@ -124,7 +151,8 @@ function EmpresaForm() {
                                 <Input 
                                     id="representante" 
                                     name="representante"
-                                    aria-describedby="my-helper-text"  
+                                    aria-describedby="my-helper-text" 
+                                    inputProps = {{maxLength:80}} 
                                     value={data.representante}
                                     onChange={(e) => handle(e)}
                                 />
@@ -135,6 +163,7 @@ function EmpresaForm() {
                                 <Input 
                                     id="email" 
                                     name="email"
+                                    inputProps = {{maxLength:80}}
                                     aria-describedby="my-helper-text" 
                                     value={data.email} 
                                     onChange={(e) => handle(e)}                                    
@@ -147,10 +176,10 @@ function EmpresaForm() {
                                 <InputLabel htmlFor="ruc">RUC</InputLabel>
                                 <Input 
                                     id="ruc" 
-                                    name = "ruc"
+                                    name = "ruc"                                                                        
                                     aria-describedby="my-helper-text" 
-                                    value={data.ruc}
-                                    onChange={(e) => handle(e)}                                     
+                                    value={data.ruc}                                    
+                                    onChange={(e) => handleNumber(e,13)}                                     
                                 />
                                 <FormHelperText id="my-helper-text">RUC</FormHelperText>
                             </FormControl>
@@ -158,10 +187,10 @@ function EmpresaForm() {
                                 <InputLabel htmlFor="telefono">Teléfono</InputLabel>
                                 <Input 
                                     id="telefono" 
-                                    name="contacto"
+                                    name="contacto"                                                                       
                                     aria-describedby="my-helper-text" 
                                     value={data.contacto} 
-                                    onChange={(e) => handle(e)}
+                                    onChange={(e) => handleNumber(e,10)}                                    
                                 />
                                 <FormHelperText id="my-helper-text">Teléfono</FormHelperText>
                             </FormControl>
@@ -172,7 +201,7 @@ function EmpresaForm() {
                                 color="primary"
                                 onClick={handleSave}
                             >
-                                Guardar
+                            Guardar
                             </Button>    
                         </div>                                          
                     </form> 
