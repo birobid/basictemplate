@@ -23,6 +23,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import { blue } from '@material-ui/core/colors';
+import { useDispatch } from 'react-redux';
+import { showMessage } from 'app/store/fuse/messageSlice';
+
 
 const serverapi = process.env.REACT_APP_SERVERAPI;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -120,6 +123,7 @@ function SimpleDialog(props) {
 
 function Asignacion() {
 
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [ticketActual,setTicket] = useState(0); //Setear el Ticket a manipular
     const [selectedValue, setSelectedValue] = useState([
@@ -171,7 +175,7 @@ function Asignacion() {
     const handleSave = function fun(tk,ope){
         
         if(ope === 0){
-            alert(`Debe asignar un Operador al ticket ${tk}`)
+            dispatch(showMessage({message:`Debe asignar un Operador al ticket ${tk}`,variant:'error'}))
         }else{
             const urlupdate = `${serverapi}/actualizaticket`;
             const dataForm = {
@@ -194,8 +198,18 @@ function Asignacion() {
                             return item.idticket !== tk;            
                         })    
                         setListTicket(newListTicket)
+                        dispatch(showMessage({
+                            message:`Asignacion Exitosa del Ticket ${tk}`,
+                            autoHideDuration:2000,
+                            anchorOrigin: {
+                                vertical  : 'bottom',//top bottom
+                                horizontal: 'center'//left center right
+                            },
+                            variant: 'success'//success error info warning null
+                        }))
                     }                
                 }, (error) => {
+                    dispatch(showMessage({message:`Problemas al asignar operador al ticket ${tk}`,variant:'error'}))
                     console.log(error);
                 });
                 
